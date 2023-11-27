@@ -1,69 +1,62 @@
-/**
- * DOM SELECTORS
- */
+document.addEventListener("DOMContentLoaded", function () {
 
-const startButton = document.querySelector(".js-start-button");
- // TODO: Add the missing query selectors:
- const statusSpan = document.querySelector(".js-status"); // Use querySelector() to get the status element
- const heading = document.querySelector(".js-heading"); // Use querySelector() to get the heading element
- const padContainer = document.querySelector(".js-pad-container"); // Use querySelector() to get the heading element
+  const startButton = document.querySelector(".js-start-button");
+  const statusSpan = document.querySelector(".js-status");
+  const heading = document.querySelector(".js-heading");
+  const padContainer = document.querySelector(".js-pad-container");
 
-/**
- * VARIABLES
- */
-let computerSequence = []; // track the computer-generated sequence of pad presses
-let playerSequence = []; // track the player-generated sequence of pad presses
-let maxRoundCount = 0; // the max number of rounds, varies with the chosen level
-let roundCount = 0; // track the number of rounds that have been played so far
+  /**
+   * VARIABLES
+   */
+  let computerSequence = []; // track the computer-generated sequence of pad presses
+  let playerSequence = []; // track the player-generated sequence of pad presses
+  let maxRoundCount = 0; // the max number of rounds, varies with the chosen level
+  let roundCount = 0; // track the number of rounds that have been played so far
 
+  /**
+   *
+   * The `pads` array contains an array of pad objects.
+   *
+   * Each pad object contains the data related to a pad: `color`, `sound`, and `selector`.
+   * - The `color` property is set to the color of the pad (e.g., "red", "blue").
+   * - The `selector` property is set to the DOM selector for the pad.
+   * - The `sound` property is set to an audio file using the Audio() constructor.
+   *
+   * Audio file for the green pad: "../assets/simon-says-sound-2.mp3"
+   * Audio file for the blue pad: "../assets/simon-says-sound-3.mp3"
+   * Audio file for the yellow pad: "../assets/simon-says-sound-4.mp3"
+   *
+   */
 
-/**
- *
- * The `pads` array contains an array of pad objects.
- *
- * Each pad object contains the data related to a pad: `color`, `sound`, and `selector`.
- * - The `color` property is set to the color of the pad (e.g., "red", "blue").
- * - The `selector` property is set to the DOM selector for the pad.
- * - The `sound` property is set to an audio file using the Audio() constructor.
- *
- * Audio file for the green pad: "../assets/simon-says-sound-2.mp3"
- * Audio file for the blue pad: "../assets/simon-says-sound-3.mp3"
- * Audio file for the yellow pad: "../assets/simon-says-sound-4.mp3"
- *
- */
+  const pads = [
+      {
+          color: "red",
+          selector: document.querySelector(".js-pad-red"),
+          sound: new Audio("./assets/simon-says-sound-1.mp3"),
+      },
+      {
+          color: "green",
+          selector: document.querySelector(".js-pad-green"),
+          sound: new Audio("./assets/simon-says-sound-2.mp3"),
+      },
+      {
+          color: "blue",
+          selector: document.querySelector(".js-pad-blue"),
+          sound: new Audio("./assets/simon-says-sound-3.mp3"),
+      },
+      {
+          color: "yellow",
+          selector: document.querySelector(".js-pad-yellow"),
+          sound: new Audio("./assets/simon-says-sound-4.mp3"),
+      }
+  ];
 
- const pads = [
-  {
-    color: "red",
-    selector: document.querySelector(".js-pad-red"),
-    sound: new Audio("../assets/simon-says-sound-1.mp3"),
-  },
-  {
-    color: "green",
-    selector: document.querySelector(".js-pad-green"),
-    sound: new Audio("../assets/simon-says-sound-2.mp3"),selector: document
-  },
-  {
-    color: "blue",
-    selector: document.querySelector(".js-pad-blue"),
-    sound: new Audio("../assets/simon-says-sound-3.mp3"),
-  },
-  {
-    color: "yellow",
-    selector: document.querySelector(".js-pad-yellow"),
-    sound: new Audio("../assets/simon-says-sound-4.mp3"),
-  }
-  // TODO: Add the objects for the green, blue, and yellow pads. Use object for the red pad above as an example.
-];
+  /**
+   * EVENT LISTENERS
+   */
 
-/**
- * EVENT LISTENERS
- */
-
-padContainer.addEventListener("click", padHandler);
-// TODO: Add an event listener `startButtonHandler()` to startButton.
-
-startButton.addEventListener("click", startButtonHandler);
+  padContainer.addEventListener("click", padHandler);
+  startButton.addEventListener("click", startButtonHandler);
 /**
  * EVENT HANDLERS
  */
@@ -83,16 +76,13 @@ startButton.addEventListener("click", startButtonHandler);
  *
  */
 function startButtonHandler() {
-  // TODO: Write your code here.
   setLevel(+document.querySelector("#levelSelect").value);
-
   roundCount++;
 
   startButton.classList.add("hidden");
   statusSpan.classList.remove("hidden");
 
   playComputerTurn();
-
 
   return { startButton, statusSpan };
 }
@@ -117,10 +107,11 @@ function startButtonHandler() {
 function padHandler(event) {
   const { color } = event.target.dataset;
   if (!color) return;
+
   const pad = pads.find(pad => pad.color === color);
   pad.sound.play();
   checkPress(color);
-  // TODO: Write your code here.
+
   return color;
 }
 
@@ -150,7 +141,6 @@ function padHandler(event) {
  *
  */
 function setLevel(level = 1) {
-  // TODO: Write your code here.
   switch(level) {
     case 1:
       maxRoundCount = 8;
@@ -166,6 +156,7 @@ function setLevel(level = 1) {
       break;
     default:
       return "Please enter level 1, 2, 3, or 4";
+  }
 }
 
 /**
@@ -186,14 +177,13 @@ function setLevel(level = 1) {
 function getRandomItem(collection) {
   if (collection.length === 0) return null;
   const randomIndex = Math.floor(Math.random() * collection.length);
-   return collection[randomIndex];
+  return collection[randomIndex];
 }
 
 /**
  * Sets the status text of a given HTML element with a given a message
  */
 function setText(element, text) {
-  // TODO: Write your code here.
   element.innerText = text;
   return element;
 }
@@ -218,8 +208,6 @@ function activatePad(color) {
 
   setTimeout(() => pad.selector.classList.remove("activated"), 500);
 }
-  // TODO: Write your code here.
-}
 
 /**
  * Activates a sequence of colors passed as an array to the function
@@ -236,7 +224,6 @@ function activatePad(color) {
  */
 
 function activatePads(sequence) {
-  // TODO: Write your code here.
   sequence.forEach((color, index) => {
     setTimeout(() => activatePad(color), (index + 1) * 1000); // if tests fail, change 1000 to 600
   });
@@ -265,8 +252,7 @@ function activatePads(sequence) {
  * to the current round (roundCount) multiplied by 600ms which is the duration for each pad in the
  * sequence.
  */
- function playComputerTurn() {
-  // TODO: Write your code here.
+function playComputerTurn() {
   padContainer.classList.add("unclickable");
 
   setText(statusSpan, "The computer's turn...");
@@ -286,7 +272,6 @@ function activatePads(sequence) {
  * 2. Display a status message showing the player how many presses are left in the round
  */
 function playHumanTurn() {
-  // TODO: Write your code here.
   padContainer.classList.remove("unclickable");
   setText(statusSpan, `Your turn: ${computerSequence.length - playerSequence.length} presses left`);
 }
@@ -314,7 +299,6 @@ function playHumanTurn() {
  *
  */
 function checkPress(color) {
-  // TODO: Write your code here.
   playerSequence.push(color);
   const index = playerSequence.length - 1;
   const remainingPresses = computerSequence.length - playerSequence.length;
@@ -355,7 +339,6 @@ function checkRound() {
     setText(statusSpan, "Nice! Keep going!");
     setTimeout(() => playComputerTurn(), 1000);
   }
-  // TODO: Write your code here.
 }
 
 /**
@@ -368,25 +351,23 @@ function checkRound() {
  * 3. Reset `roundCount` to an empty array
  */
 function resetGame(text) {
-  // TODO: Write your code here.
   computerSequence = [];
   playerSequence = [];
   roundCount = 0;
 
-  // Uncomment the code below:
   alert(text);
   setText(heading, "Simon Says");
   startButton.classList.remove("hidden");
   statusSpan.classList.add("hidden");
-   padContainer.classList.add("unclickable");
+  padContainer.classList.add("unclickable");
 }
-
+});
 
 /**
- * Please do not modify the code below.
- * Used for testing purposes.
- *
- */
+* Please do not modify the code below.
+* Used for testing purposes.
+*
+*/
 window.statusSpan = statusSpan;
 window.heading = heading;
 window.padContainer = padContainer;
