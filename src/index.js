@@ -309,21 +309,16 @@ function checkRound() {
  * 3. Reset `roundCount` to an empty array
  */
 function resetGame(text) {
+ // TODO: Write your code here.
+computerSequence=[];
+playerSequence=[];
+roundCount=[];
+ // Uncomment the code below:
   alert(text);
-  computerSequence = [];
-  playerSequence = [];
-  roundCount = 0;
-  if (text.includes("won")) {
-    playerWins++;
-  } else {
-    computerWins++;
-  }
   setText(heading, "Simon Says");
-  setText(startButton, "PLAY AGAIN")
-  statusSpan.classList.add("hidden");
   startButton.classList.remove("hidden");
+  statusSpan.classList.add("hidden");
   padContainer.classList.add("unclickable");
-  difficultyContainer.classList.remove("hidden");
 }
 
 /**
