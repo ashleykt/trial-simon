@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik+Microbe&display=swap');
+@import url('https://www.1001fonts.com/sofachrome-font.html');
 
 html {
   background: url('../assets/background.png') no-repeat center center fixed;
@@ -12,7 +12,7 @@ html {
 
 body {
   color: FF00FF;
-  font-family: 'Rubik Microbe', sans-serif;
+  font-family: 'Sofachrome', sans-serif;
   display: flex;
   justify-content: center;
   height: 100vh;
