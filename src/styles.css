@@ -96,7 +96,7 @@ h1 {
 .pad-green:active,
 .pad-green.activated {
   background-color: #a0ea00;
-  transform: translateY(-10px);
+  transform: translateY(10px);
 }
 
 .pad-yellow {
