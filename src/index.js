@@ -84,20 +84,14 @@ startButton.addEventListener("click", startButtonHandler);
  *
  */
 function startButtonHandler() {
-  // TODO: Write your code here.
-  setLevel(+document.querySelector("#levelSelect").value);
-
+  setLevel();
   roundCount++;
-
-  startButton.classList.add("hidden");
-  statusSpan.classList.remove("hidden");
-
+  startButton.classList.add('hidden');
+  statusSpan.classList.remove('hidden');
+  difficultyContainer.classList.add('hidden');
   playComputerTurn();
-
-
   return { startButton, statusSpan };
 }
-
 /**
  * Called when one of the pads is clicked.
  *
@@ -118,10 +112,10 @@ function startButtonHandler() {
 function padHandler(event) {
   const { color } = event.target.dataset;
   if (!color) return;
-  const pad = pads.find(pad => pad.color === color);
+  let pad = pads.find(pad => pad.color == color);
+  pad.sound.currentTime = 0;
   pad.sound.play();
   checkPress(color);
-  // TODO: Write your code here.
   return color;
 }
 
@@ -150,25 +144,16 @@ function padHandler(event) {
  * setLevel(8) //> returns "Please enter level 1, 2, 3, or 4";
  *
  */
-function setLevel(level = 1) {
-  // TODO: Write your code here.
-  switch(level) {
-    case 1:
-      maxRoundCount = 8;
-      break;
-    case 2:
-      maxRoundCount = 14;
-      break;
-    case 3:
-      maxRoundCount = 20;
-      break;
-    case 4:
-      maxRoundCount = 31;
-      break;
-    default:
-      return "Please enter level 1, 2, 3, or 4";
+function setLevel(level) {
+  level ??= Number(document.querySelector('input[name="difficulty"]:checked').value);
+  let rounds = [8,8,14,20,31]
+  maxRoundCount = rounds[level];
+  if (level > 4) {
+    return "Please enter level 1, 2, 3, or 4";
+  } else {
+    return rounds[level];
+  }
 }
-
 /**
  * Returns a randomly selected item from a given array.
  *
@@ -216,6 +201,7 @@ function activatePad(color) {
   const pad = pads.find(pad => pad.color === color);
   pad.selector.classList.add("activated");
   pad.sound.play();
+  pad.sound.currentTime = 0;
 
   setTimeout(() => pad.selector.classList.remove("activated"), 500);
 }
@@ -237,10 +223,11 @@ function activatePad(color) {
  */
 
 function activatePads(sequence) {
-  // TODO: Write your code here.
-  sequence.forEach((color, index) => {
-    setTimeout(() => activatePad(color), (index + 1) * 1000); // if tests fail, change 1000 to 600
-  });
+  let delay = 600;
+  sequence.forEach(color => {
+    setTimeout(() => activatePad(color), delay);
+    delay += 600;
+  })
 }
 
 /**
@@ -267,18 +254,16 @@ function activatePads(sequence) {
  * sequence.
  */
  function playComputerTurn() {
-  // TODO: Write your code here.
-  padContainer.classList.add("unclickable");
-
+  padContainer.classList.add('unclickable');
   setText(statusSpan, "The computer's turn...");
   setText(heading, `Round ${roundCount} of ${maxRoundCount}`);
+  playerSequence = [];
 
-  computerSequence.push(getRandomItem(pads).color)
+  computerSequence.push(getRandomItem(['red', 'green', 'blue', 'yellow']));
   activatePads(computerSequence);
 
-  setTimeout(() => playHumanTurn(roundCount), roundCount * 600 + 1000); // 5
+  setTimeout(() => playHumanTurn(roundCount), roundCount * 600 + 500); // 5
 }
-
 /**
  * Allows the player to play their turn.
  *
@@ -287,9 +272,15 @@ function activatePads(sequence) {
  * 2. Display a status message showing the player how many presses are left in the round
  */
 function playHumanTurn() {
-  // TODO: Write your code here.
-  padContainer.classList.remove("unclickable");
-  setText(statusSpan, `Your turn: ${computerSequence.length - playerSequence.length} presses left`);
+  padContainer.classList.remove('unclickable');
+  let remainingPresses = computerSequence.length - playerSequence.length;
+  if (playerSequence.length == 0) {
+    setText(statusSpan, "Player's turn...");
+  } else if (remainingPresses == 1) {
+    setText(statusSpan, `1 press remaining`);
+  } else {
+    setText(statusSpan, `${remainingPresses} presses remaining`);
+  }
 }
 
 /**
@@ -315,19 +306,18 @@ function playHumanTurn() {
  *
  */
 function checkPress(color) {
-  // TODO: Write your code here.
   playerSequence.push(color);
-  const index = playerSequence.length - 1;
-  const remainingPresses = computerSequence.length - playerSequence.length;
-  setText(statusSpan, `Your turn: ${remainingPresses} presses left`);
-
-  if (computerSequence[index] !== playerSequence[index]) {
-    resetGame("Oops! Game over.");
-    return;
+  let index = playerSequence.length - 1;
+  let remainingPresses = computerSequence.length - playerSequence.length;
+  if (remainingPresses == 1) {
+    setText(statusSpan, `1 press remaining`);
+  } else {
+    setText(statusSpan, `${remainingPresses} presses remaining`)
   }
-
-  if (remainingPresses === 0) {
-    checkRound();
+  if (playerSequence[index] != computerSequence[index]) {
+    resetGame("Incorrect sequence!");
+  } else {
+    if (remainingPresses == 0) checkRound();
   }
 }
 
@@ -347,17 +337,15 @@ function checkPress(color) {
  */
 
 function checkRound() {
-  if (playerSequence.length === maxRoundCount) {
-    resetGame("Congrats! You won!");
-    return;
+  if (playerSequence.length == maxRoundCount) {
+    resetGame("You won!");
   } else {
     roundCount++;
-    playerSequence = [];
     setText(statusSpan, "Nice! Keep going!");
-    setTimeout(() => playComputerTurn(), 1000);
+    setTimeout(playComputerTurn, 1000);
   }
-  // TODO: Write your code here.
 }
+
 
 /**
  * Resets the game. Called when either the player makes a mistake or wins the game.
@@ -369,17 +357,21 @@ function checkRound() {
  * 3. Reset `roundCount` to an empty array
  */
 function resetGame(text) {
-  // TODO: Write your code here.
+  alert(text);
   computerSequence = [];
   playerSequence = [];
   roundCount = 0;
-
-  // Uncomment the code below:
-  alert(text);
+  if (text.includes("won")) {
+    playerWins++;
+  } else {
+    computerWins++;
+  }
   setText(heading, "Simon Says");
-  startButton.classList.remove("hidden");
+  setText(startButton, "PLAY AGAIN")
   statusSpan.classList.add("hidden");
-   padContainer.classList.add("unclickable");
+  startButton.classList.remove("hidden");
+  padContainer.classList.add("unclickable");
+  difficultyContainer.classList.remove("hidden");
 }
 
 
