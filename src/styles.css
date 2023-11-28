@@ -11,7 +11,7 @@ html {
 
 body {
   color: yellow;
-  font-family: 'Rubik Microbe', sans-serif;
+  font-family: sans-serif;
   display: flex;
   justify-content: center;
   height: 100vh;
