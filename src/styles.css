@@ -1,4 +1,4 @@
-@import url('https://typodermicfonts.com/sofachrome/');
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&display=swap'');
 
 html {
   background: url('../assets/background.png') no-repeat center center fixed;
@@ -12,7 +12,7 @@ html {
 
 body {
   color: FF00FF;
-  font-family: 'Sofachrome', sans-serif;
+  font-family: 'Teko', sans-serif;
   display: flex;
   justify-content: center;
   height: 100vh;
