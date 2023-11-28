@@ -316,6 +316,7 @@ roundCount=[];
  // Uncomment the code below:
   alert(text);
   setText(heading, "Simon Says");
+  setText(startButton, "PLAY AGAIN")
   startButton.classList.remove("hidden");
   statusSpan.classList.add("hidden");
   padContainer.classList.add("unclickable");
