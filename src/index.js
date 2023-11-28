@@ -319,7 +319,6 @@ function resetGame(text) {
     computerWins++;
   }
   setText(heading, "Simon Says");
-  setText(heading, `${text}\nYou ${playerWins} vs CPU ${computerWins}`);
   setText(startButton, "PLAY AGAIN")
   statusSpan.classList.add("hidden");
   startButton.classList.remove("hidden");
