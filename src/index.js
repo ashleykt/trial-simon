@@ -7,6 +7,7 @@ const startButton = document.querySelector(".js-start-button");
  const statusSpan = document.querySelector(".js-status"); // Use querySelector() to get the status element
  const heading = document.querySelector(".js-heading"); // Use querySelector() to get the heading element
  const padContainer = document.querySelector(".js-pad-container"); // Use querySelector() to get the heading element
+ const dropdownContainer = document.querySelector('.js-dropdown');
 
 /**
  * VARIABLES
