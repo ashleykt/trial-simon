@@ -36,7 +36,7 @@ h1 {
   display: inline-block;
   height: 38px;
   padding: 0 30px;
-  color: orange;
+  color: purple;
   text-align: center;
   font-size: 14px;
   font-weight: 600;
@@ -73,13 +73,13 @@ h1 {
 .pad-red:hover,
 .pad-red:focus {
   background-color: #ff451a;
-  transform: rotate(5deg);
+  transform: translateY(5deg);
 }
 
 .pad-red:active,
 .pad-red.activated {
   background-color: #ff5c36;
-  transform: translateY(-10px);
+  transform: translateY(10px);
 }
 
 .pad-green {
