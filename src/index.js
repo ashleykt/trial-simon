@@ -290,10 +290,10 @@ function checkPress(color) {
 
 function checkRound() {
   if (playerSequence.length == maxRoundCount) {
-    resetGame("You won!");
+    resetGame("Winner Winner Chicken Dinner!");
   } else {
     roundCount++;
-    setText(statusSpan, "Nice! Keep going!");
+    setText(statusSpan, "You Rock! Keep Going!");
     setTimeout(playComputerTurn, 1000);
   }
 }
