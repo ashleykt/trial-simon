@@ -5,18 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/styles.css" />
-    <title>Ashley Says</title>
+    <title>Faith Simon Game</title>
   </head>
   <body>
     <main>
-      <!--TODO: Add the missing information in the h1 heading -->
-      <h1 class="js-heading">Simon Says!</h1>
-
-      <section class="game-controls">
-        <!--TODO: Add the start button -->
-        <span class="status hidden js-status"></span>
-      </section>
-
+      <h1 id="title" class="js-heading">Simon</h1>
       <section class="game-controls">
         <span class="status hidden js-status"></span>
         <div class="difficulty js-difficulty">
@@ -35,10 +28,9 @@
 
       <section class="pad-container unclickable js-pad-container">
         <div class="pad pad-red js-pad-red" data-color="red"></div>
-        <!--TODO: Add the missing pads -->
-          <div class="pad pad-blue js-pad-blue" data-color="blue"></div>
-          <div class="pad pad-green js-pad-green" data-color="green"></div>
-          <div class="pad pad-yellow js-pad-yellow" data-color="yellow"></div>
+        <div class="pad pad-green js-pad-green" data-color="green"></div>
+        <div class="pad pad-blue js-pad-blue" data-color="blue"></div>
+        <div class="pad pad-yellow js-pad-yellow" data-color="yellow"></div>
       </section>
     </main>
     <script src="./src/index.js"></script>
