@@ -109,15 +109,7 @@ function setLevel(level) {
   }
 }
 
-var roundCount = 0;
 
-function returnTimeout() {
-  var minSpeed = 100;
-  var maxSpeed = 250;
-  var t = maxSpeed - (roundCount * 5);
-  if (t < minSpeed) return minSpeed;
-  return t;
-}
 /**
  * Returns a randomly selected item from a given array.
  *
