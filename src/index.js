@@ -320,6 +320,8 @@ roundCount=[];
   startButton.classList.remove("hidden");
   statusSpan.classList.add("hidden");
   padContainer.classList.add("unclickable");
+  difficultyContainer.classList.remove("hidden");
+
 }
 
 /**
