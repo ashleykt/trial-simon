@@ -6,7 +6,7 @@
  const statusSpan = document.querySelector('.js-status');
  const heading = document.querySelector('.js-heading');
  const padContainer = document.querySelector('.js-pad-container');
- const difficultyContainer = document.querySelector('.js-difficulty');
+ const levelContainer = document.querySelector('.js-level');
 
 
 /**
