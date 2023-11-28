@@ -1,5 +1,5 @@
 
-  @import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Rubik+Microbe&display=swap');
 
 html {
   background: url('../assets/background.png') no-repeat center center fixed;
@@ -13,7 +13,7 @@ html {
 
 body {
   color: FF00FF;
-  font-family: 'Teko', sans-serif;
+  font-family: 'Rubik Microbe', sans-serif;
   display: flex;
   justify-content: center;
   height: 100vh;
