@@ -2,12 +2,12 @@
  * DOM SELECTORS
  */
 
-const startButton = document.querySelector(".js-start-button");
- // TODO: Add the missing query selectors:
- const statusSpan = document.querySelector(".js-status"); // Use querySelector() to get the status element
- const heading = document.querySelector(".js-heading"); // Use querySelector() to get the heading element
- const padContainer = document.querySelector(".js-pad-container"); // Use querySelector() to get the heading element
- const dropdownContainer = document.querySelector('.js-dropdown');
+ const startButton = document.querySelector(".js-start-button");
+ const statusSpan = document.querySelector('.js-status');
+ const heading = document.querySelector('.js-heading');
+ const padContainer = document.querySelector('.js-pad-container');
+ const difficultyContainer = document.querySelector('.js-difficulty');
+
 
 /**
  * VARIABLES
@@ -16,45 +16,31 @@ let computerSequence = []; // track the computer-generated sequence of pad press
 let playerSequence = []; // track the player-generated sequence of pad presses
 let maxRoundCount = 0; // the max number of rounds, varies with the chosen level
 let roundCount = 0; // track the number of rounds that have been played so far
+let playerWins = 0
+let computerWins = 0;
 
-
-/**
- *
- * The `pads` array contains an array of pad objects.
- *
- * Each pad object contains the data related to a pad: `color`, `sound`, and `selector`.
- * - The `color` property is set to the color of the pad (e.g., "red", "blue").
- * - The `selector` property is set to the DOM selector for the pad.
- * - The `sound` property is set to an audio file using the Audio() constructor.
- *
- * Audio file for the green pad: "../assets/simon-says-sound-2.mp3"
- * Audio file for the blue pad: "../assets/simon-says-sound-3.mp3"
- * Audio file for the yellow pad: "../assets/simon-says-sound-4.mp3"
- *
- */
 
  const pads = [
   {
     color: "red",
     selector: document.querySelector(".js-pad-red"),
-    sound: new Audio("../assets/simon-says-sound-1.mp3"),
+    sound: new Audio("./assets/simon-says-sound-1.mp3"),
   },
   {
     color: "green",
     selector: document.querySelector(".js-pad-green"),
-    sound: new Audio("../assets/simon-says-sound-2.mp3"),selector: document
+    sound: new Audio("./assets/simon-says-sound-2.mp3"),
   },
   {
     color: "blue",
     selector: document.querySelector(".js-pad-blue"),
-    sound: new Audio("../assets/simon-says-sound-3.mp3"),
+    sound: new Audio("./assets/simon-says-sound-3.mp3"),
   },
   {
     color: "yellow",
     selector: document.querySelector(".js-pad-yellow"),
-    sound: new Audio("../assets/simon-says-sound-4.mp3"),
+    sound: new Audio("./assets/simon-says-sound-4.mp3"),
   }
-  // TODO: Add the objects for the green, blue, and yellow pads. Use object for the red pad above as an example.
 ];
 
 /**
@@ -62,27 +48,12 @@ let roundCount = 0; // track the number of rounds that have been played so far
  */
 
 padContainer.addEventListener("click", padHandler);
-// TODO: Add an event listener `startButtonHandler()` to startButton.
-
 startButton.addEventListener("click", startButtonHandler);
+
 /**
  * EVENT HANDLERS
  */
 
-/**
- * Called when the start button is clicked.
- *
- * 1. Call setLevel() to set the level of the game
- *
- * 2. Increment the roundCount from 0 to 1
- *
- * 3. Hide the start button by adding the `.hidden` class to the start button
- *
- * 4. Unhide the status element, which displays the status messages, by removing the `.hidden` class
- *
- * 5. Call `playComputerTurn()` to start the game with the computer going first.
- *
- */
 function startButtonHandler() {
   setLevel();
   roundCount++;
@@ -92,23 +63,7 @@ function startButtonHandler() {
   playComputerTurn();
   return { startButton, statusSpan };
 }
-/**
- * Called when one of the pads is clicked.
- *
- * 1. `const { color } = event.target.dataset;` extracts the value of `data-color`
- * attribute on the element that was clicked and stores it in the `color` variable
- *
- * 2. `if (!color) return;` exits the function if the `color` variable is falsy
- *
- * 3. Use the `.find()` method to retrieve the pad from the `pads` array and store it
- * in a variable called `pad`
- *
- * 4. Play the sound for the pad by calling `pad.sound.play()`
- *
- * 5. Call `checkPress(color)` to verify the player's selection
- *
- * 6. Return the `color` variable as the output
- */
+
 function padHandler(event) {
   const { color } = event.target.dataset;
   if (!color) return;
@@ -154,6 +109,7 @@ function setLevel(level) {
     return rounds[level];
   }
 }
+
 /**
  * Returns a randomly selected item from a given array.
  *
@@ -172,14 +128,13 @@ function setLevel(level) {
 function getRandomItem(collection) {
   if (collection.length === 0) return null;
   const randomIndex = Math.floor(Math.random() * collection.length);
-   return collection[randomIndex];
+  return collection[randomIndex];
 }
 
 /**
  * Sets the status text of a given HTML element with a given a message
  */
 function setText(element, text) {
-  // TODO: Write your code here.
   element.innerText = text;
   return element;
 }
@@ -198,14 +153,11 @@ function setText(element, text) {
  */
 
 function activatePad(color) {
-  const pad = pads.find(pad => pad.color === color);
-  pad.selector.classList.add("activated");
-  pad.sound.play();
+  let pad = pads.find(pad => pad.color == color);
+  pad.selector.classList.add('activated');
   pad.sound.currentTime = 0;
-
-  setTimeout(() => pad.selector.classList.remove("activated"), 500);
-}
-  // TODO: Write your code here.
+  pad.sound.play();
+  setTimeout(() => pad.selector.classList.remove('activated'), 500);
 }
 
 /**
@@ -264,6 +216,7 @@ function activatePads(sequence) {
 
   setTimeout(() => playHumanTurn(roundCount), roundCount * 600 + 500); // 5
 }
+
 /**
  * Allows the player to play their turn.
  *
@@ -346,7 +299,6 @@ function checkRound() {
   }
 }
 
-
 /**
  * Resets the game. Called when either the player makes a mistake or wins the game.
  *
@@ -367,13 +319,13 @@ function resetGame(text) {
     computerWins++;
   }
   setText(heading, "Simon Says");
+  setText(heading, `${text}\nYou ${playerWins} vs CPU ${computerWins}`);
   setText(startButton, "PLAY AGAIN")
   statusSpan.classList.add("hidden");
   startButton.classList.remove("hidden");
   padContainer.classList.add("unclickable");
   difficultyContainer.classList.remove("hidden");
 }
-
 
 /**
  * Please do not modify the code below.
